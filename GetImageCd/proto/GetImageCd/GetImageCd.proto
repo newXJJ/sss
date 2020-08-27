@@ -1,0 +1,82 @@
+syntax = "proto3";
+
+package go.micro.service.GetImageCd;
+
+service GetImageCd {
+	rpc GetImageCode(Request) returns (Response) {}
+	//
+	rpc GetSmsCode(SmsRequest) returns (SmsResponse) {}
+	rpc Stream(StreamingRequest) returns (stream StreamingResponse) {}
+	rpc PingPong(stream Ping) returns (stream Pong) {}
+	//注册请求
+	rpc PostRet(PostRetRequest) returns (PostRetResponse) {}
+}
+
+message Message {
+	string say = 1;
+}
+
+message Request {
+	string uuid = 1;
+}
+
+message Response {
+	string Error = 1;
+	string Errmsg = 2;
+	//图片结构元素
+	bytes Pix = 3;
+	//图片的跨度
+	int64 Stride = 4;
+
+
+	message Point{
+		int64 X = 1;
+		int64 Y = 2;
+	}
+	Point Min = 5;
+	Point Max = 6;
+}
+
+
+message SmsRequest {
+	//手机号
+	string mobile =1 ;
+	//图片验证码的值
+	string imagestr =2 ;
+	//uuid
+	string uuid =3 ;
+}
+
+message SmsResponse {
+	string Error = 1;
+	string Errmsg = 2;
+}
+
+message StreamingRequest {
+	int64 count = 1;
+}
+
+message StreamingResponse {
+	int64 count = 1;
+}
+
+message Ping {
+	int64 stroke = 1;
+}
+
+message Pong {
+	int64 stroke = 1;
+}
+
+
+message PostRetRequest {
+	string Mobile = 1;
+	string Password = 2;
+	string SmsCode = 3;
+}
+
+message PostRetResponse {
+	string Error = 1;
+	string Errmsg = 2;
+	string SessionId = 3;
+}
